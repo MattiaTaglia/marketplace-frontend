@@ -32,11 +32,19 @@
   let ownerAddress = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
   let showWithdraw = false
   $: {
-
     if ($userForm?.user?.address && ownerAddress === $userForm?.user?.address) {
       showWithdraw = true
     }
   }
+
+  $: {
+    if (!!$userForm?.user?.address)
+      window.ethereum.on('accountsChanged', function (accounts: any[]) {
+        console.log(accounts, "have changed")
+        loginWithMetamask()
+      })
+  }
+  
 </script>
 
 <div
